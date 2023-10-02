@@ -1,0 +1,13 @@
+#playersData tr th, td{
+    border: 1px solid black
+}
+
+#outer
+{
+    width:100%;
+    text-align: center;
+}
+.inner
+{
+    display: inline-block;
+}
