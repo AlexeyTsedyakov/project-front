@@ -10,6 +10,15 @@
         <h1>RPG admin panel</h1>
 
         <h2>Accounts list:</h2>
+        <div>
+            <label for="countPerPage">Count per page:</label>
+            <select id="countPerPage">
+                <option value="3">3</option>
+                <option value="9">9</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+        </div>
         <table id="playersData">
             <thead>
                 <tr>
@@ -28,9 +37,8 @@
 
             </tbody>
         </table>
-        <div class="inner">
-            Pages:
-            <button> </button>
+        <div id="pageButtons">
+            <span>Pages:</span>
         </div>
     </body>
 </html>
