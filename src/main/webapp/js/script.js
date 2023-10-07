@@ -116,86 +116,125 @@ function updatePlayerData(dataParams, id) {
             } else if (request.status === 400) {
                 alert(`(id ${id}) Bad player id`)
             } else {
-                alert(`(id ${id}) ${msg}`);
+                alert(`(id ${id}) ${msg}`)
             }
         }
-    });
+    })
+}
+
+function createNewAccount(dataParams) {
+    $.ajax({
+        url: `/rest/players/`,
+        type: 'POST',
+        data: JSON.stringify(dataParams),
+        contentType: 'application/json; charset=utf-8',
+        async: false,
+        success: function (result) {
+            alert(`Account successfully created!`)
+        },
+        error: function (request, msg, error) {
+            if (request.status === 400) {
+                alert(`Bad player input data!`)
+            } else {
+                alert(`(id ${id}) ${msg}`)
+            }
+        }
+    })
 }
 
 function addInputInCell(cell) {
+    const value = cell.text()
+    cell.text('')
+
     if ($(cell).hasClass('race')) {
-        addRaceSelect(cell)
+        cell.append('<select class="raceSelect"></select>')
+        $(cell).find('.raceSelect').append(getRaceOptions())
+        $(cell).find('.raceSelect').val(value)
     } else if ($(cell).hasClass('profession')) {
-        addProfessionSelect(cell);
+        cell.append('<select class="professionSelect"></select>')
+        $(cell).find('.professionSelect').append(getProfessionOptions())
+        $(cell).find('.professionSelect').val(value)
     } else if ($(cell).hasClass('banned')) {
-        addBanSelect(cell)
+        cell.append('<select class="banSelect"></select>')
+        $(cell).find('.banSelect').append(getBanOptions())
+        $(cell).find('.banSelect').val(value)
     } else {
-        addTextInput(cell)
+        cell.append('<input value="' + value + '"/>')
     }
 }
 
-function addTextInput(cell) {
-    const value = cell.text()
-    cell.text('')
-    cell.append('<input value="' + value + '"/>')
+function getRaceOptions() {
+    let option = ''
+    option += '<option value="HUMAN">HUMAN</option>'
+    option += '<option value="DWARF">DWARF</option>'
+    option += '<option value="ELF">ELF</option>'
+    option += '<option value="GIANT">GIANT</option>'
+    option += '<option value="ORC">ORC</option>'
+    option += '<option value="TROLL">TROLL</option>'
+    option += '<option value="HOBBIT">HOBBIT</option>'
+
+    return option
 }
 
-function addRaceSelect(cell) {
-    const value = cell.text()
-    cell.text('')
+function getProfessionOptions() {
+    let option = ''
+    option += '<option value="WARRIOR">WARRIOR</option>'
+    option += '<option value="ROGUE">ROGUE</option>'
+    option += '<option value="SORCERER">SORCERER</option>'
+    option += '<option value="CLERIC">CLERIC</option>'
+    option += '<option value="PALADIN">PALADIN</option>'
+    option += '<option value="NAZGUL">NAZGUL</option>'
+    option += '<option value="WARLOCK">WARLOCK</option>'
 
-    let select = ''
-    select += '<select class="raceSelect">'
-    select += '<option value="HUMAN">HUMAN</option>'
-    select += '<option value="DWARF">DWARF</option>'
-    select += '<option value="ELF">ELF</option>'
-    select += '<option value="GIANT">GIANT</option>'
-    select += '<option value="ORC">ORC</option>'
-    select += '<option value="TROLL">TROLL</option>'
-    select += '<option value="HOBBIT">HOBBIT</option>'
-    select += '</select>'
-
-    cell.append(select)
-    $(cell).find('.raceSelect').val(value)
+    return option
 }
 
-function addProfessionSelect(cell) {
-    const value = cell.text()
-    cell.text('')
+function getBanOptions() {
+    let option = ''
+    option += '<option value="true">false</option>'
+    option += '<option value="false">true</option>'
 
-    let select = ''
-    select += '<select class="professionSelect">'
-    select += '<option value="WARRIOR">WARRIOR</option>'
-    select += '<option value="ROGUE">ROGUE</option>'
-    select += '<option value="SORCERER">SORCERER</option>'
-    select += '<option value="CLERIC">CLERIC</option>'
-    select += '<option value="PALADIN">PALADIN</option>'
-    select += '<option value="NAZGUL">NAZGUL</option>'
-    select += '<option value="WARLOCK">WARLOCK</option>'
-    select += '</select>'
-
-    cell.append(select)
-    $(cell).find('.professionSelect').val(value)
+    return option
 }
 
-function addBanSelect(cell) {
-    const value = cell.text()
-    cell.text('')
+function initializeNewAccountSection() {
+    const name = $('#newAccountName')
+    const title = $('#newAccountTitle')
+    const race = $('#newAccountRace')
+    const profession = $('#newAccountProfession')
+    const level = $('#newAccountLevel')
+    const birthday = $('#newAccountBirthday')
+    const banned = $('#newAccountBanned')
 
-    let select = ''
-    select += '<select class="banSelect">'
-    select += '<option value="true">true</option>'
-    select += '<option value="false">false</option>'
-    select += '</select>'
+    name.val('')
+    title.val('')
+    race.find('option').remove()
+    race.append(getRaceOptions())
+    profession.find('option').remove()
+    profession.append(getProfessionOptions())
+    level.val('')
+    birthday.val('')
+    banned.find('option').remove()
+    banned.append(getBanOptions())
 
-    cell.append(select)
-    $(cell).find('.banSelect').val(value)
+    $('form').find('span').empty()
+}
+
+function updateValidityDisplay(input) {
+    const span = $(input).next("span");
+    span.empty();
+    if (input.validity.valid) {
+        span.text('\u2713').css("color", "green");
+    } else {
+        span.text('\u2716').css("color", "red");
+    }
 }
 
 // Обработчик при загрузке документа.
 $(document).ready(() => {
     updatePlayersList(0)
     updatePageButtons()
+    initializeNewAccountSection()
 })
 
 // Обработчик изменений countPerPage.
@@ -251,7 +290,7 @@ $(document).on('click', '.editAccount', function () {
 
 // Обработчик сохранения аккаунта.
 $(document).on('click', '.saveAccount', function () {
-    $('#playersData tbody .saveAccount').each(function() {
+    $('#playersData tbody .saveAccount').each(function () {
         const row = $(this).parent()
         const id = row.find('.id').text()
         const dataParams = {
@@ -265,4 +304,37 @@ $(document).on('click', '.saveAccount', function () {
     })
     updatePlayersList(activeButtonNumber - 1)
 })
+
+// Обработчик создания нового аккаунта.
+$("form").on("submit", function (event) {
+    event.preventDefault()
+
+    // Проверяем валидность введенных данных и заполняем параметры.
+    let dataParam = {};
+    const inputs = $(this).find(".newAccount").not('label').not('button')
+    for (let i = 0; i < inputs.length; i++) {
+        const input = inputs[i]
+        updateValidityDisplay(input)
+        if (!input.checkValidity()) {
+            alert('Please fill in all required fields correctly.')
+            return;
+        }
+
+        const key = input.className.split(' ')[1]
+        const value = key === 'birthday' ? new Date(input.value).getTime() : input.value
+        dataParam[key] = value
+    }
+
+    createNewAccount(dataParam)
+    updatePlayersList(activeButtonNumber - 1)
+    initializeNewAccountSection()
+})
+
+// Обработчик ввода данных нового аккаунта.
+$(".newAccount").on("input", function () {
+    updateValidityDisplay(this)
+})
+
+
+
 
