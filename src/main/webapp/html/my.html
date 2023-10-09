@@ -7,71 +7,75 @@
 </head>
 
 <body>
-<h1>RPG admin panel</h1>
+<div class="content">
+    <h1>RPG admin panel</h1>
 
-<h2>Accounts list:</h2>
-<div>
-    <label for="countPerPage">Count per page:</label>
-    <select id="countPerPage">
-        <option value="3">3</option>
-        <option value="9">9</option>
-        <option value="15">15</option>
-        <option value="20">20</option>
-    </select>
+    <h2>Accounts list:</h2>
+    <div>
+        <label for="countPerPage">Count per page:</label>
+        <select id="countPerPage">
+            <option value="3">3</option>
+            <option value="9">9</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+    </div>
+    <table id="playersData">
+        <thead>
+        <tr>
+            <th class="id">#</th>
+            <th class="name">Name</th>
+            <th class="title">Title</th>
+            <th class="race">Race</th>
+            <th class="profession">Profession</th>
+            <th class="level">Level</th>
+            <th class="birthday">Birthday</th>
+            <th class="banned">Banned</th>
+            <th class="edit">Edit</th>
+            <th class="delete">Delete</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+    </table>
+    <div id="pageButtons">
+        <span>Pages:</span>
+    </div>
+    <hr/>
+
+    <h2>Create new account:</h2>
+    <form>
+        <label for="newAccountName">Name:</label>
+        <input type="text" pattern=".{1,12}" required title="1 to 12 characters" id="newAccountName"
+               class="newAccount name"/>
+        <span></span><br>
+
+        <label for="newAccountTitle">Title:</label>
+        <input type="text" pattern=".{1,30}" id="newAccountTitle" required title="1 to 30 characters"
+               class="newAccount title"/>
+        <span></span><br>
+
+        <label for="newAccountRace">Race:</label>
+        <select id="newAccountRace" class="newAccount race" required></select><br>
+
+        <label for="newAccountProfession">Profession:</label>
+        <select id="newAccountProfession" class="newAccount profession" required></select><br>
+
+        <label for="newAccountLevel">Level:</label>
+        <input type="number" id="newAccountLevel" class="newAccount level" min="1" max="100" required/>
+        <span></span><br>
+
+        <label for="newAccountBirthday">Birthday:</label>
+        <input type="date" id="newAccountBirthday" class="newAccount birthday" required/>
+        <span></span><br>
+
+        <label for="newAccountBanned">Banned:</label>
+        <select id="newAccountBanned" class="newAccount banned"></select><br>
+        <br>
+        <button type="submit" id="newAccountButton">Save</button>
+    </form>
 </div>
-<table id="playersData">
-    <thead>
-    <tr>
-        <th class="id">#</th>
-        <th class="name">Name</th>
-        <th class="title">Title</th>
-        <th class="race">Race</th>
-        <th class="profession">Profession</th>
-        <th class="level">Level</th>
-        <th class="birthday">Birthday</th>
-        <th class="banned">Banned</th>
-        <th class="edit">Edit</th>
-        <th class="delete">Delete</th>
-    </tr>
-    </thead>
-
-    <tbody>
-
-    </tbody>
-</table>
-<div id="pageButtons">
-    <span>Pages:</span>
-</div>
-<hr/>
-
-<h2>Create new account:</h2>
-<form>
-    <label for="newAccountName" class="newAccount">Name:</label>
-    <input type="text" pattern=".{1,12}" required title="1 to 12 characters" id="newAccountName" class="newAccount name"/>
-    <span></span><br>
-
-    <label for="newAccountTitle" class="newAccount">Title:</label>
-    <input type="text" pattern=".{1,30}" id="newAccountTitle" required title="1 to 30 characters" class="newAccount title"/>
-    <span></span><br>
-
-    <label for="newAccountRace" class="newAccount">Race:</label>
-    <select id="newAccountRace" class="newAccount race" required></select><br>
-
-    <label for="newAccountProfession" class="newAccount">Profession:</label>
-    <select id="newAccountProfession" class="newAccount profession" required></select><br>
-
-    <label for="newAccountLevel" class="newAccount">Level:</label>
-    <input type="number" id="newAccountLevel" class="newAccount level" min="1" max="100" required/>
-    <span></span><br>
-
-    <label for="newAccountBirthday" class="newAccount">Birthday:</label>
-    <input type="date" id="newAccountBirthday" class="newAccount birthday" required/>
-    <span></span><br>
-
-    <label for="newAccountBanned" class="newAccount">Banned:</label>
-    <select id="newAccountBanned" class="newAccount banned"></select><br>
-    <br>
-    <button type="submit" id="newAccountButton" class="newAccount">Save</button>
-</form>
 </body>
 </html>
